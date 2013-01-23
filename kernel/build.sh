@@ -5,6 +5,7 @@ OUTDIR="../out"
 INITRAMFS_ANDROID="initramfs/ramdisk_boot"
 INITRAMFS_RECOVERY="ramdisk_recovery"
 INITRAMFS_RECOVERY_OLD="ramdisk_recovery_old"
+INITRAMFS_RECOVERY_TOUCH="ramdisk_recovery_touch"
 MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko" "crypto/ansi_cprng.ko" "drivers/samsung/j4fs/j4fs.ko")
 
   case "$1" in
@@ -32,11 +33,16 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         find . | cpio -o -H newc > ../stage1/boot.cpio
         cd ..
 
-        # create the recovery ramdisk, default is for 6.0.1.2, "old" is for 5.5.0.4
+        # create the recovery ramdisk, default is for 6.0.1.2, "old" is for 5.5.0.4, "touch" is for touch recovery
       case "$1" in
       old)  
         cd ${INITRAMFS_RECOVERY_OLD}
         cp recovery.cpio ../stage1/recovery.cpio
+        cd ../..
+      ;;
+      touch)
+        cd ${INITRAMFS_RECOVERY_TOUCH}
+        find . | cpio -o -H newc > ../stage1/recovery.cpio
         cd ../..
       ;;
       *)
@@ -52,10 +58,13 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         cd ${OUTDIR}
       case "$1" in
       old)  
-        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_old.tar zImage
+        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_CWM5.tar zImage
+      ;;
+      touch)  
+        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_TOUCH.tar zImage
       ;;
       *)
-        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}.tar zImage
+        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.tar zImage
       ;;
       esac
         cd ../kernel

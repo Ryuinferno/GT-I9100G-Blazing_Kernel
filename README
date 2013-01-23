@@ -4,4 +4,4 @@ NOTE:
 Delete files named "Delete before compiling" from the folders in kernel/initramfs/ramdisk_recovery before compiling. They are only placeholder files.
 
 COMPILING:
-To build, cd to the kernel directory and use the "./build.sh" command; to clean the directories for a clean build, run "./build.sh clean"; to compile a kernel with CWM5 (default is CWM6), run "./build.sh old". The ODIN flashable tar and zImage will be in a folder named "out".
+To build, cd to the kernel directory and use the "./build.sh" command; to clean the directories for a clean build, run "./build.sh clean"; to compile a kernel with CWM5 (default is CWM6), run "./build.sh old", "./build.sh touch" is for touch-based recovery. The ODIN flashable tar and zImage will be in a folder named "out".
