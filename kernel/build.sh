@@ -25,8 +25,10 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         make -j2 modules
        
         for module in "${MODULES[@]}" ; do
-            cp "${module}" ${INITRAMFS_ANDROID}/lib/modules/
+            cp "${module}" ${INITRAMFS_ANDROID}/lib/modules
         done
+        
+        chmod 644 ${INITRAMFS_ANDROID}/lib/modules/*
 
         # create the android ramdisk
         cd ${INITRAMFS_ANDROID}
