@@ -2,6 +2,8 @@
 
 VERSION="v1"
 OUTDIR="../out"
+ZIPDIR="../tools/zipfile"
+PLACEHOLDER="Delete_before_compiling"
 INITRAMFS_ANDROID="initramfs/ramdisk_boot"
 INITRAMFS_RECOVERY="ramdisk_recovery"
 INITRAMFS_RECOVERY_OLD="ramdisk_recovery_old"
@@ -44,12 +46,24 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
       ;;
       touch)
         cd ${INITRAMFS_RECOVERY_TOUCH}
+        rm data/$PLACEHOLDER
+        rm system/bin/$PLACEHOLDER
+        rm tmp/$PLACEHOLDER
         find . | cpio -o -H newc > ../stage1/recovery.cpio
+        echo > data/$PLACEHOLDER
+        echo > system/bin/$PLACEHOLDER
+        echo > tmp/$PLACEHOLDER
         cd ../..
       ;;
       *)
         cd ${INITRAMFS_RECOVERY}
+        rm data/$PLACEHOLDER
+        rm system/bin/$PLACEHOLDER
+        rm tmp/$PLACEHOLDER
         find . | cpio -o -H newc > ../stage1/recovery.cpio
+        echo > data/$PLACEHOLDER
+        echo > system/bin/$PLACEHOLDER
+        echo > tmp/$PLACEHOLDER
         cd ../..
       ;;
       esac
@@ -57,6 +71,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         # build the zImage
         make
         cp arch/arm/boot/zImage ${OUTDIR}
+        cp arch/arm/boot/zImage ${ZIPDIR}
         cd ${OUTDIR}
       case "$1" in
       old)  
@@ -69,6 +84,39 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.tar zImage
       ;;
       esac
-        cd ../kernel
+      
+      cd ..
+
+      case "$1" in
+      old)  
+        echo "Creating flashable zip..."
+        cd tools/zipfile
+        zip -r GT-I9100G_Blazing_Kernel_${VERSION}_CWM5.zip *
+        cd ..
+        echo "Sigining zip..."
+        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/GT-I9100G_Blazing_Kernel_${VERSION}_CWM5.zip ${OUTDIR}/GT-I9100G_Blazing_Kernel_${VERSION}_CWM5.zip
+      ;;
+      touch)  
+        echo "Creating flashable zip..."
+        cd tools/zipfile
+        zip -r GT-I9100G_Blazing_Kernel_${VERSION}_TOUCH.zip *
+        cd ..
+        echo "Sigining zip..."
+        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/GT-I9100G_Blazing_Kernel_${VERSION}_TOUCH.zip ${OUTDIR}/GT-I9100G_Blazing_Kernel_${VERSION}_TOUCH.zip
+      ;;
+      *)
+        echo "Creating flashable zip..."
+        cd tools/zipfile
+        zip -r GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.zip *
+        cd ..
+        echo "Sigining zip..."
+        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.zip ${OUTDIR}/GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.zip
+      ;;
+      esac   
+      rm zipfile/*.zip zipfile/zImage 
+      cd ../kernel
    ;;
    esac
+   
+   
+   

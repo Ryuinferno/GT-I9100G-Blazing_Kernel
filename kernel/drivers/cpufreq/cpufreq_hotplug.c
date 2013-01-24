@@ -31,16 +31,16 @@
 #include <linux/slab.h>
 
 /* greater than 80% avg load across online CPUs increases frequency */
-#define DEFAULT_UP_FREQ_MIN_LOAD			(80)
+#define DEFAULT_UP_FREQ_MIN_LOAD			(60)
 
 /* Keep 10% of idle under the up threshold when decreasing the frequency */
 #define DEFAULT_FREQ_DOWN_DIFFERENTIAL			(10)
 
 /* less than 35% avg load across online CPUs decreases frequency */
-#define DEFAULT_DOWN_FREQ_MAX_LOAD			(35)
+#define DEFAULT_DOWN_FREQ_MAX_LOAD			(20)
 
 /* default sampling period (uSec) is bogus; 10x ondemand's default for x86 */
-#define DEFAULT_SAMPLING_PERIOD				(100000)
+#define DEFAULT_SAMPLING_PERIOD				(10000)
 
 /* default number of sampling periods to average before hotplug-in decision */
 #define DEFAULT_HOTPLUG_IN_SAMPLING_PERIODS		(5)

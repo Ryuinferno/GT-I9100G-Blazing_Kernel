@@ -1,0 +1,13 @@
+ui_print("Flashing Blazing Kernel v1...");
+ui_print("By Ryuinferno @ XDA 2013...");
+
+ui_print("Flashing kernel...");
+package_extract_file("flash_image", "/tmp/flash_image");
+set_perm(0, 0, 0777, "/tmp/flash_image");
+assert(package_extract_file("zImage", "/tmp/zImage"),
+       run_program("/tmp/flash_image", "/dev/block/mmcblk0p5", "/tmp/zImage"),
+       delete("/tmp/zImage"));
+delete("/tmp/flash_image");
+
+ui_print("Done!");
+ui_print("Reboot and enjoy! :)");
