@@ -15,6 +15,29 @@
 #include <mach/lpddr2-elpida.h>
 
 const struct lpddr2_timings lpddr2_elpida_timings_400_mhz = {
+	.max_freq	= 533000000,
+	.RL		= 7,
+	.tRPab		= 21,
+	.tRCD		= 18,
+	.tWR		= 15,
+	.tRASmin	= 42,
+	.tRRD		= 10,
+	.tWTRx2		= 15,
+	.tXSR		= 140,
+	.tXPx2		= 15,
+	.tRFCab		= 130,
+	.tRTPx2		= 15,
+	.tCKE		= 3,
+	.tCKESR		= 15,
+	.tZQCS		= 90,
+	.tZQCL		= 360,
+	.tZQINIT	= 1000,
+	.tDQSCKMAXx2	= 11,
+	.tRASmax	= 70,
+	.tFAW		= 50
+};
+
+const struct lpddr2_timings lpddr2_elpida_timings_333_mhz = {
 	.max_freq	= 400000000,
 	.RL		= 6,
 	.tRPab		= 21,
@@ -37,32 +60,9 @@ const struct lpddr2_timings lpddr2_elpida_timings_400_mhz = {
 	.tFAW		= 50
 };
 
-const struct lpddr2_timings lpddr2_elpida_timings_333_mhz = {
-	.max_freq	= 333000000,
-	.RL		= 5,
-	.tRPab		= 21,
-	.tRCD		= 18,
-	.tWR		= 15,
-	.tRASmin	= 42,
-	.tRRD		= 10,
-	.tWTRx2		= 15,
-	.tXSR		= 140,
-	.tXPx2		= 15,
-	.tRFCab		= 130,
-	.tRTPx2		= 15,
-	.tCKE		= 3,
-	.tCKESR		= 15,
-	.tZQCS		= 90,
-	.tZQCL		= 360,
-	.tZQINIT	= 1000,
-	.tDQSCKMAXx2	= 11,
-	.tRASmax	= 70,
-	.tFAW		= 50
-};
-
 const struct lpddr2_timings lpddr2_elpida_timings_200_mhz = {
-	.max_freq	= 200000000,
-	.RL		= 3,
+	.max_freq	= 266000000,
+	.RL		= 4,
 	.tRPab		= 21,
 	.tRCD		= 18,
 	.tWR		= 15,
