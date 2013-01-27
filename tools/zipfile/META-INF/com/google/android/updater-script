@@ -1,4 +1,4 @@
-ui_print("Flashing Blazing Kernel v1...");
+ui_print("Flashing Blazing Kernel v2...");
 ui_print("By Ryuinferno @ XDA 2013...");
 
 ui_print("Flashing kernel...");

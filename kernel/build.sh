@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="v1"
+VERSION="v2"
 OUTDIR="../out"
 ZIPDIR="../tools/zipfile"
 PLACEHOLDER="Delete_before_compiling"
@@ -91,7 +91,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
       old)  
         echo "Creating flashable zip..."
         cd tools/zipfile
-        zip -r GT-I9100G_Blazing_Kernel_${VERSION}_CWM5.zip *
+        zip -r Blazing_Kernel_${VERSION}_CWM5.zip *
         cd ..
         echo "Sigining zip..."
         java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/GT-I9100G_Blazing_Kernel_${VERSION}_CWM5.zip ${OUTDIR}/GT-I9100G_Blazing_Kernel_${VERSION}_CWM5.zip
@@ -99,7 +99,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
       touch)  
         echo "Creating flashable zip..."
         cd tools/zipfile
-        zip -r GT-I9100G_Blazing_Kernel_${VERSION}_TOUCH.zip *
+        zip -r Blazing_Kernel_${VERSION}_TOUCH.zip *
         cd ..
         echo "Sigining zip..."
         java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/GT-I9100G_Blazing_Kernel_${VERSION}_TOUCH.zip ${OUTDIR}/GT-I9100G_Blazing_Kernel_${VERSION}_TOUCH.zip
@@ -107,7 +107,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
       *)
         echo "Creating flashable zip..."
         cd tools/zipfile
-        zip -r GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.zip *
+        zip -r Blazing_Kernel_${VERSION}_CWM6.zip *
         cd ..
         echo "Sigining zip..."
         java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.zip ${OUTDIR}/GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.zip
