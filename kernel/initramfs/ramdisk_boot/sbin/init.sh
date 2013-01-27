@@ -9,14 +9,33 @@ if [ -e /system/media/bootanimation.zip ] && [ ! -e /system/etc/cusboot ]; then
   echo "on" > /system/etc/cusboot
   mount -o ro,remount /system
 elif [ -e /system/media/bootanimation.zip ] && [ -e /system/etc/cusboot ]; then
-   mount -o ro,remount /system
+  mount -o ro,remount /system
 elif [ ! -e /system/media/bootanimation.zip ] && [ ! -e /system/etc/cusboot ]; then
-   mount -o ro,remount /system
+  mount -o ro,remount /system
 else
   rm /system/bin/samsungani
   mv /system/bin/samsungani_orig /system/bin/samsungani
   chmod 755 /system/bin/samsungani
   rm /system/etc/cusboot
+  mount -o ro,remount /system
+fi;
+
+# custom boot sound support
+mount -o rw,remount /system
+if [ -e /system/media/PowerOn.ogg ]; then
+  mv /system/media/PowerOn.ogg /system/etc/PowerOn.ogg
+  chmod 644 /system/etc/PowerOn.ogg
+  mount -o ro,remount /system
+elif [ -e /system/media/ori_sound ]; then
+  cp /sbin/PowerOn.ogg /system/etc/PowerOn.ogg
+  chmod 644 /system/etc/PowerOn.ogg
+  rm /system/media/ori_sound
+  mount -o ro,remount /system
+elif [ -e /system/media/mute ]; then
+  rm /system/etc/PowerOn.ogg
+  rm /system/media/mute
+  mount -o ro,remount /system
+else
   mount -o ro,remount /system
 fi;
 
