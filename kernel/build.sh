@@ -24,7 +24,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         make blazing_defconfig
 
         # build modules first to include them into android ramdisk
-        make -j2 modules
+        make -j8 modules
        
         for module in "${MODULES[@]}" ; do
             cp "${module}" ${INITRAMFS_ANDROID}/lib/modules
@@ -69,7 +69,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
       esac
         
         # build the zImage
-        make
+        make -j8
         cp arch/arm/boot/zImage ${OUTDIR}
         cp arch/arm/boot/zImage ${ZIPDIR}
         cd ${OUTDIR}
