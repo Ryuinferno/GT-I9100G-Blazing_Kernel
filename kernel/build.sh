@@ -94,7 +94,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         zip -r Blazing_Kernel_${VERSION}_CWM5.zip *
         cd ..
         echo "Sigining zip..."
-        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/GT-I9100G_Blazing_Kernel_${VERSION}_CWM5.zip ${OUTDIR}/GT-I9100G_Blazing_Kernel_${VERSION}_CWM5.zip
+        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/Blazing_Kernel_${VERSION}_CWM5.zip ${OUTDIR}/Blazing_Kernel_${VERSION}_CWM5.zip
       ;;
       touch)  
         echo "Creating flashable zip..."
@@ -102,7 +102,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         zip -r Blazing_Kernel_${VERSION}_TOUCH.zip *
         cd ..
         echo "Sigining zip..."
-        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/GT-I9100G_Blazing_Kernel_${VERSION}_TOUCH.zip ${OUTDIR}/GT-I9100G_Blazing_Kernel_${VERSION}_TOUCH.zip
+        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/Blazing_Kernel_${VERSION}_TOUCH.zip ${OUTDIR}/Blazing_Kernel_${VERSION}_TOUCH.zip
       ;;
       *)
         echo "Creating flashable zip..."
@@ -110,7 +110,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         zip -r Blazing_Kernel_${VERSION}_CWM6.zip *
         cd ..
         echo "Sigining zip..."
-        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.zip ${OUTDIR}/GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.zip
+        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/Blazing_Kernel_${VERSION}_CWM6.zip ${OUTDIR}/Blazing_Kernel_${VERSION}_CWM6.zip
       ;;
       esac   
       rm zipfile/*.zip zipfile/zImage 
