@@ -411,8 +411,15 @@ on boot
     class_start core
     class_start main
 
+    start ryuinit
+
 on nonencrypted
     class_start late_start
+
+service ryuinit /sbin/init.sh
+     user root
+     oneshot
+     disabled
 
 on charger
     class_start charger
