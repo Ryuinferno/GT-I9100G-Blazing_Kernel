@@ -416,7 +416,7 @@ on boot
 on nonencrypted
     class_start late_start
 
-service ryuinit /sbin/init.sh
+service ryuinit /sbin/blaze/init.sh
      user root
      oneshot
      disabled
