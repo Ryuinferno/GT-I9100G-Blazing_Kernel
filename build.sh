@@ -4,7 +4,6 @@ VERSION="v5"
 OUTDIR="../out"
 ZIPDIR="../tools/zipfile"
 PLACEHOLDER="Delete_before_compiling"
-EXFAT_MOD="/home/ryuinferno/XXLSR_initramfs/lib/modules"
 INITRAMFS_ANDROID="initramfs/ramdisk_boot"
 INITRAMFS_RECOVERY="ramdisk_recovery"
 INITRAMFS_RECOVERY_OLD="ramdisk_recovery_old"
@@ -16,8 +15,6 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
   case "$1" in
   clean)
           make mrproper
-          cp ${EXFAT_MOD}/exfat_fs.ko ${INITRAMFS_ANDROID}/lib/modules
-          cp ${EXFAT_MOD}/exfat_core.ko ${INITRAMFS_ANDROID}/lib/modules
           rm -rf ${OUTDIR}
    ;;
    *)  
@@ -30,10 +27,6 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         for module in "${MODULES[@]}" ; do
             cp "${module}" ${INITRAMFS_ANDROID}/lib/modules
         done  
-        if [ ! -e ${INITRAMFS_ANDROID}/lib/modules/exfat_fs.ko ] || [ ! -e ${INITRAMFS_ANDROID}/lib/modules/exfat_core.ko ]; then   
-          cp ${EXFAT_MOD}/exfat_fs.ko ${INITRAMFS_ANDROID}/lib/modules
-          cp ${EXFAT_MOD}/exfat_core.ko ${INITRAMFS_ANDROID}/lib/modules
-        fi
         chmod 644 ${INITRAMFS_ANDROID}/lib/modules/*
 
         # create the android ramdisk
@@ -105,25 +98,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         make -j8
         cp arch/arm/boot/zImage ${OUTDIR}
         cp arch/arm/boot/zImage ${ZIPDIR}
-        cd ${OUTDIR}
-      case "$1" in
-      old)  
-        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_CWM5.tar zImage
-      ;;
-      touch)  
-        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_TOUCH.tar zImage
-      ;;
-      cwm6)  
-        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.tar zImage
-      ;;
-      twrp)  
-        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_TWRP.tar zImage
-      ;;
-      *)
-        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_CWM6_MOD.tar zImage
-      ;;
-      esac
-      
+     
       cd ..
 
       case "$1" in

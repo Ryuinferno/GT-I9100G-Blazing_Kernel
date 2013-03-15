@@ -370,6 +370,8 @@ on fs
 
 	insmod /lib/modules/j4fs.ko
 	mount j4fs /dev/block/mmcblk0p4 /mnt/.lfs
+        insmod /system/lib/modules/exfat_core.ko
+        insmod /system/lib/modules/exfat_fs.ko
 
 on property:persist.sys.t1.off_mode=*
 	write /d/pm_debug/enable_off_mode $persist.sys.t1.off_mode
