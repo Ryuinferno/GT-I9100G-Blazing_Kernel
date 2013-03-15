@@ -10,6 +10,7 @@ INITRAMFS_RECOVERY="ramdisk_recovery"
 INITRAMFS_RECOVERY_OLD="ramdisk_recovery_old"
 INITRAMFS_RECOVERY_TOUCH="ramdisk_recovery_touch"
 INITRAMFS_RECOVERY_MOD="ramdisk_recovery_mod"
+INITRAMFS_RECOVERY_TWRP="ramdisk_recovery_twrp"
 MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko" "drivers/samsung/j4fs/j4fs.ko")
 
   case "$1" in
@@ -41,7 +42,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         find . | cpio -o -H newc > ../stage1/boot.cpio
         cd ..
 
-        # create the recovery ramdisk, default is for 6.0.1.2, "old" is for 5.5.0.4, "touch" is for touch recovery, "mod" is for modified 6.0.2.8
+        # create the recovery ramdisk, "cwm6" is for 6.0.1.2, "old" is for 5.5.0.4, "touch" is for touch recovery, "twrp" for TWRP 2.4; default is modified 6.0.2.8
       case "$1" in
       old)  
         rm stage1/recovery.cpio
@@ -61,9 +62,21 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         echo > tmp/$PLACEHOLDER
         cd ../..
       ;;
-      mod)
+      cwm6)
         rm stage1/recovery.cpio
-        cd ${INITRAMFS_RECOVERY_MOD}
+        cd ${INITRAMFS_RECOVERY}
+        rm data/$PLACEHOLDER
+        rm system/bin/$PLACEHOLDER
+        rm tmp/$PLACEHOLDER
+        find . | cpio -o -H newc > ../stage1/recovery.cpio
+        echo > data/$PLACEHOLDER
+        echo > system/bin/$PLACEHOLDER
+        echo > tmp/$PLACEHOLDER
+        cd ../..
+      ;;
+      twrp)
+        rm stage1/recovery.cpio
+        cd ${INITRAMFS_RECOVERY_TWRP}
         rm data/$PLACEHOLDER
         rm system/bin/$PLACEHOLDER
         rm tmp/$PLACEHOLDER
@@ -75,7 +88,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
       ;;
       *)
         rm stage1/recovery.cpio
-        cd ${INITRAMFS_RECOVERY}
+        cd ${INITRAMFS_RECOVERY_MOD}
         rm data/$PLACEHOLDER
         rm system/bin/$PLACEHOLDER
         rm tmp/$PLACEHOLDER
@@ -83,7 +96,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         echo > data/$PLACEHOLDER
         echo > system/bin/$PLACEHOLDER
         echo > tmp/$PLACEHOLDER
-        cd ../..
+        cd ../.. 
       ;;
       esac
         
@@ -100,11 +113,14 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
       touch)  
         tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_TOUCH.tar zImage
       ;;
-      mod)  
-        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_CWM6_MOD.tar zImage
+      cwm6)  
+        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.tar zImage
+      ;;
+      twrp)  
+        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_TWRP.tar zImage
       ;;
       *)
-        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_CWM6.tar zImage
+        tar -cf GT-I9100G_Blazing_Kernel_${VERSION}_CWM6_MOD.tar zImage
       ;;
       esac
       
@@ -127,15 +143,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         echo "Sigining zip..."
         java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/Blazing_Kernel_${VERSION}_TOUCH.zip ${OUTDIR}/Blazing_Kernel_${VERSION}_TOUCH.zip
       ;;
-      mod)  
-        echo "Creating flashable zip..."
-        cd tools/zipfile
-        zip -r Blazing_Kernel_${VERSION}_CWM6_MOD.zip *
-        cd ..
-        echo "Sigining zip..."
-        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/Blazing_Kernel_${VERSION}_CWM6_MOD.zip ${OUTDIR}/Blazing_Kernel_${VERSION}_CWM6_MOD.zip
-      ;;
-      *)
+      cwm6)  
         echo "Creating flashable zip..."
         cd tools/zipfile
         zip -r Blazing_Kernel_${VERSION}_CWM6.zip *
@@ -143,11 +151,24 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         echo "Sigining zip..."
         java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/Blazing_Kernel_${VERSION}_CWM6.zip ${OUTDIR}/Blazing_Kernel_${VERSION}_CWM6.zip
       ;;
+      twrp)  
+        echo "Creating flashable zip..."
+        cd tools/zipfile
+        zip -r Blazing_Kernel_${VERSION}_TWRP.zip *
+        cd ..
+        echo "Sigining zip..."
+        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/Blazing_Kernel_${VERSION}_TWRP.zip ${OUTDIR}/Blazing_Kernel_${VERSION}_TWRP.zip
+      ;;
+      *)
+        echo "Creating flashable zip..."
+        cd tools/zipfile
+        zip -r Blazing_Kernel_${VERSION}_CWM6_MOD.zip *
+        cd ..
+        echo "Sigining zip..."
+        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/Blazing_Kernel_${VERSION}_CWM6_MOD.zip ${OUTDIR}/Blazing_Kernel_${VERSION}_CWM6_MOD.zip
+      ;;
       esac   
       rm zipfile/*.zip zipfile/zImage 
       cd ../kernel
    ;;
    esac
-   
-   
-   
