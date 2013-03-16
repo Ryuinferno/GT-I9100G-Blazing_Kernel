@@ -1187,11 +1187,30 @@
 					<action function="page">confirm_action</action>
 				</actions>
 			</object>
+			
+			<object type="button">
+				<highlight color="%highlight_color%" />
+				<placement x="%col1_x%" y="%row3_y%" />
+				<font resource="font" color="%button_text_color%" />
+				<text>Preload</text>
+				<image resource="main_button" />
+				<actions>
+					<action function="set">tw_back=wipe</action>
+					<action function="set">tw_action=wipe</action>
+					<action function="set">tw_action_param=/preload</action>
+					<action function="set">tw_text1=Wipe Preload?</action>
+					<action function="set">tw_text2=This will wipe your ROM</action>
+					<action function="set">tw_action_text1=Wiping Preload...</action>
+					<action function="set">tw_complete_text1=Preload Wipe Complete</action>
+					<action function="set">tw_slider_text=Swipe to Wipe</action>
+					<action function="page">confirm_action</action>
+				</actions>
+			</object>
 
 			<object type="button">
 				<highlight color="%highlight_color%" />
 				<condition var1="tw_has_external" var2="1" />
-				<placement x="%col1_x%" y="%row3_y%" />
+				<placement x="%col2_x%" y="%row3_y%" />
 				<font resource="font" color="%button_text_color%" />
 				<text>External Storage</text>
 				<image resource="main_button" />
@@ -1213,7 +1232,7 @@
 			<object type="button">
 				<highlight color="%highlight_color%" />
 				<condition var1="tw_has_internal" var2="1" />
-				<placement x="%col2_x%" y="%row3_y%" />
+				<placement x="%col1_x%" y="%row4_y%" />
 				<font resource="font" color="%button_text_color%" />
 				<text>Internal Storage</text>
 				<image resource="main_button" />
@@ -1263,7 +1282,7 @@
 			<object type="button">
 				<highlight color="%highlight_color%" />
 				<condition var1="tw_has_data_media" var2="0" />
-				<placement x="%col1_x%" y="%row4_y%" />
+				<placement x="%col2_x%" y="%row4_y%" />
 				<font resource="font" color="%button_text_color%" />
 				<text>Android Secure</text>
 				<image resource="main_button" />
@@ -1282,7 +1301,7 @@
 			<object type="button">
 				<highlight color="%highlight_color%" />
 				<condition var1="tw_has_sdext_partition" var2="1" />
-				<placement x="%col2_x%" y="%row4_y%" />
+				<placement x="%col1_x%" y="%row5_y%" />
 				<font resource="font" color="%button_text_color%" />
 				<text>SD Ext</text>
 				<image resource="main_button" />
@@ -2005,9 +2024,27 @@
 				<image resource="checkbox_true" />
 				<action function="umount">/system</action>
 			</object>
+			
+			<object type="button">
+				<placement x="%col1_x%" y="%row2_text_y%" />
+				<font resource="font" color="%text_color%" />
+				<condition var1="mounted" op="!=" var2="/preload" />
+				<text>Mount Preload</text>
+				<image resource="checkbox_false" />
+				<action function="mount">/preload</action>
+			</object>
 
 			<object type="button">
 				<placement x="%col1_x%" y="%row2_text_y%" />
+				<font resource="font" color="%text_color%" />
+				<condition var1="mounted" op="=" var2="/preload" />
+				<text>Unmount Preload</text>
+				<image resource="checkbox_true" />
+				<action function="umount">/preload</action>
+			</object>
+
+			<object type="button">
+				<placement x="%col1_x%" y="%row3_text_y%" />
 				<font resource="font" color="%text_color%" />
 				<condition var1="mounted" op="!=" var2="/data" />
 				<text>Mount Data</text>
@@ -2016,7 +2053,7 @@
 			</object>
 
 			<object type="button">
-				<placement x="%col1_x%" y="%row2_text_y%" />
+				<placement x="%col1_x%" y="%row3_text_y%" />
 				<font resource="font" color="%text_color%" />
 				<condition var1="mounted" op="=" var2="/data" />
 				<text>Unmount Data</text>
@@ -2025,7 +2062,7 @@
 			</object>
 
 			<object type="button">
-				<placement x="%col1_x%" y="%row3_text_y%" />
+				<placement x="%col1_x%" y="%row4_text_y%" />
 				<font resource="font" color="%text_color%" />
 				<condition var1="mounted" op="!=" var2="/cache" />
 				<text>Mount Cache</text>
@@ -2034,7 +2071,7 @@
 			</object>
 
 			<object type="button">
-				<placement x="%col1_x%" y="%row3_text_y%" />
+				<placement x="%col1_x%" y="%row4_text_y%" />
 				<font resource="font" color="%text_color%" />
 				<condition var1="mounted" op="=" var2="/cache" />
 				<text>Unmount Cache</text>
@@ -2043,7 +2080,7 @@
 			</object>
 
 			<object type="button">
-				<placement x="%col1_x%" y="%row4_text_y%" />
+				<placement x="%col1_x%" y="%row5_text_y%" />
 				<font resource="font" color="%text_color%" />
 				<conditions>
 					<condition var1="tw_has_external" var2="1" />
@@ -2055,7 +2092,7 @@
 			</object>
 
 			<object type="button">
-				<placement x="%col1_x%" y="%row4_text_y%" />
+				<placement x="%col1_x%" y="%row5_text_y%" />
 				<font resource="font" color="%text_color%" />
 				<conditions>
 					<condition var1="tw_has_external" var2="1" />
@@ -2067,7 +2104,7 @@
 			</object>
 
 			<object type="button">
-				<placement x="%col2_x%" y="%row4_text_y%" />
+				<placement x="%col2_x%" y="%row5_text_y%" />
 				<font resource="font" color="%text_color%" />
 				<conditions>
 					<condition var1="tw_has_internal" var2="1" />
@@ -2080,7 +2117,7 @@
 			</object>
 
 			<object type="button">
-				<placement x="%col2_x%" y="%row4_text_y%" />
+				<placement x="%col2_x%" y="%row5_text_y%" />
 				<font resource="font" color="%text_color%" />
 				<conditions>
 					<condition var1="tw_has_internal" var2="1" />
@@ -2097,7 +2134,7 @@
 					<condition var1="tw_has_sdext_partition" var2="1" />
 					<condition var1="mounted" op="!=" var2="/sd-ext" />
 				</conditions>
-				<placement x="%col1_x%" y="%row5_text_y%" />
+				<placement x="%col1_x%" y="%row6_text_y%" />
 				<font resource="font" color="%text_color%" />
 				<text>Mount SD-Ext</text>
 				<image resource="checkbox_false" />
@@ -2105,7 +2142,7 @@
 			</object>
 
 			<object type="button">
-				<placement x="%col1_x%" y="%row5_text_y%" />
+				<placement x="%col1_x%" y="%row6_text_y%" />
 				<font resource="font" color="%text_color%" />
 				<condition var1="mounted" op="=" var2="/sd-ext" />
 				<text>Unmount SD-Ext</text>
@@ -2118,7 +2155,7 @@
 					<condition var1="tw_boot_is_mountable" var2="1" />
 					<condition var1="mounted" op="!=" var2="/boot" />
 				</conditions>
-				<placement x="%col1_x%" y="%row6_text_y%" />
+				<placement x="%col1_x%" y="%row7_text_y%" />
 				<font resource="font" color="#A0A0A0" />
 				<text>Mount Boot</text>
 				<image resource="checkbox_false" />
@@ -2130,7 +2167,7 @@
 					<condition var1="tw_boot_is_mountable" var2="1" />
 					<condition var1="mounted" op="=" var2="/boot" />
 				</conditions>
-				<placement x="%col1_x%" y="%row6_text_y%" />
+				<placement x="%col1_x%" y="%row7_text_y%" />
 				<font resource="font" color="#A0A0A0" />
 				<text>Unmount Boot</text>
 				<image resource="checkbox_true" />
