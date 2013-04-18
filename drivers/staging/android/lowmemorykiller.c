@@ -37,9 +37,6 @@
 #include <linux/mm.h>
 #include <linux/oom.h>
 #include <linux/sched.h>
-#include <linux/swap.h>
-#include <linux/rcupdate.h>
-#include <linux/profile.h>
 #include <linux/notifier.h>
 
 #ifdef CONFIG_ENHANCED_LMK_ROUTINE
@@ -131,7 +128,6 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 	int other_free = global_page_state(NR_FREE_PAGES) -
 					global_page_state(NR_FREE_CMA_PAGES);
 #endif
-	int other_free = global_page_state(NR_FREE_PAGES) - totalreserve_pages;
 	int other_file = global_page_state(NR_FILE_PAGES) -
 						global_page_state(NR_SHMEM);
 
