@@ -22,7 +22,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         make -j8 blazing_defconfig
        
         # create modules first to include in ramdisk
-        make -j8 
+        make modules -j8 
 
         for module in "${MODULES[@]}" ; do
             cp "${module}" ${INITRAMFS_ANDROID}/lib/modules
