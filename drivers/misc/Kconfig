@@ -588,14 +588,6 @@ config LEDS_AN30259A
           AN30259A has three channel LED driver. By synchronous clock
           function, combined operation is possible.
 
-config OMAP4_DUTY_CYCLE_LEGACY
-	tristate "Control OPP_NITRO usage based on duty cycle strategy (LEGACY)"
-	depends on ARCH_OMAP4
-	default n
-	---help---
-	If you are going to use OPP_NITRO with high level of leakage which.
-	could pontentially sustain a thermal runaway, say Y here.
-
 config MPU_333_ENABLE
 	bool "mpu gyro sensor MPL 4.1.1"
 	depends on I2C

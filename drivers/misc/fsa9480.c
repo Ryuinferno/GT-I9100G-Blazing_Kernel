@@ -37,7 +37,7 @@
 #include <linux/seq_file.h>
 #include <linux/debugfs.h>
 #include <linux/input.h>
-#include <linux/fastchg.h> 
+#include <linux/fastchg.h>
 
 #define DEBUG_DUMP_REGISTERS
 
@@ -684,14 +684,14 @@ static int fsa9480_detect_callback(struct otg_id_notifier_block *nb)
 		if (!(nb_info->detect_set->mask & FSA9480_DETECT_USB))
 			goto unhandled;
 #ifdef CONFIG_FORCE_FAST_CHARGE
-               if (force_fast_charge != 0) {
-               _detected(usbsw, FSA9480_DETECT_CHARGER);
-               } else {
-               _detected(usbsw, FSA9480_DETECT_USB);
-               }
-#else 
+		if (force_fast_charge != 0) {
+		_detected(usbsw, FSA9480_DETECT_CHARGER);
+		} else {
 		_detected(usbsw, FSA9480_DETECT_USB);
-#endif 
+		}
+#else
+		_detected(usbsw, FSA9480_DETECT_USB);
+#endif
 		goto handled;
 	} else if (dev_type & DEV_UART_MASK) {
 		if (!(nb_info->detect_set->mask & FSA9480_DETECT_UART))

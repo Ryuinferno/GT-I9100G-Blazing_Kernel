@@ -618,8 +618,6 @@ int omapdss_hdmi_unregister_cec_callbacks(void);
 int omap_dss_ovl_set_info(struct omap_overlay *ovl,
 		struct omap_overlay_info *info);
 
-void hdmi_disable_video_boot(void);
-
 /* RFBI */
 #ifdef CONFIG_OMAP2_DSS_RFBI
 int rfbi_init_platform_driver(void);
@@ -652,5 +650,6 @@ static inline void dss_collect_irq_stats(u32 irqstatus, unsigned *irq_arr)
 void hdmi_set_forced_timing(int timing);
 int hdmi_get_forced_timing(void);
 #endif
-extern u32 sec_bootmode;
+
+
 #endif

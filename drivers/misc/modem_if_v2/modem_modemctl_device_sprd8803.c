@@ -31,12 +31,8 @@ static int sprd8803_on(struct modem_ctl *mc)
 		pr_err("[MODEM_IF] no gpio data\n");
 		return -ENXIO;
 	}
-#ifdef CONFIG_MACH_SAMSUNG_T1_CHN_CMCC
-	gpio_set_value(mc->gpio_cp_on, 0);
-	gpio_set_value(mc->gpio_pda_active, 0);
-#else
+
 	gpio_set_value(mc->gpio_uart_sel, 1);
-#endif
 #ifdef CONFIG_SEC_DUAL_MODEM_MODE
 	gpio_set_value(mc->gpio_sim_io_sel, 1);
 	gpio_set_value(mc->gpio_cp_ctrl1, 0);
@@ -81,9 +77,7 @@ static int sprd8803_boot_on(struct modem_ctl *mc)
 {
 	pr_info("[MODEM_IF] %s %d\n", __func__, mc->phone_state);
 	if (mc->phone_state == STATE_ONLINE) {
-#ifndef CONFIG_MACH_SAMSUNG_T1_CHN_CMCC
 		gpio_set_value(mc->gpio_uart_sel, 0);
-#endif		
 		pr_info("[MODEM_IF] sprd8803 boot complete\n");
 		pr_info("[MODEM_IF] switch uart3 to AP_TXD(RXD)\n");
 	}
@@ -141,9 +135,7 @@ static irqreturn_t phone_active_irq_handler(int irq, void *_mc)
 		phone_state = STATE_OFFLINE;
 
 	if (phone_active_value && cp_dump_value) {
-#ifndef CONFIG_MACH_SAMSUNG_T1_CHN_CMCC
 		gpio_set_value(mc->gpio_uart_sel, 1);
-#endif
 		phone_state = STATE_CRASH_EXIT;
 	}
 
@@ -182,9 +174,8 @@ int sprd8803_init_modemctl_device(struct modem_ctl *mc,
 	mc->gpio_phone_active = pdata->gpio_phone_active;
 	mc->gpio_cp_dump_int = pdata->gpio_cp_dump_int;
 	mc->gpio_ap_cp_int2 = pdata->gpio_ap_cp_int2;
-#ifndef CONFIG_MACH_SAMSUNG_T1_CHN_CMCC
 	mc->gpio_uart_sel = pdata->gpio_uart_sel;
-#endif
+
 #ifdef CONFIG_SEC_DUAL_MODEM_MODE
 	mc->gpio_sim_io_sel = pdata->gpio_sim_io_sel;
 	mc->gpio_cp_ctrl1 = pdata->gpio_cp_ctrl1;

@@ -70,10 +70,9 @@ static void mipi_hsi_terminate_communication(
 	switch (iod->format) {
 	case IPC_BOOT:
 	case IPC_BOOT_2:
-		/* remove close for channel zero */
-		/* if (mipi_ld->hsi_channles[HSI_FLASHLESS_CHANNEL].opened)
+		if (mipi_ld->hsi_channles[HSI_FLASHLESS_CHANNEL].opened)
 			if_hsi_close_channel(&mipi_ld->hsi_channles[
-					HSI_FLASHLESS_CHANNEL]); */
+					HSI_FLASHLESS_CHANNEL]);
 		if (wake_lock_active(&mipi_ld->wlock)) {
 			wake_unlock(&mipi_ld->wlock);
 			mipi_debug("wake_unlock\n");

@@ -36,7 +36,7 @@
 #include <linux/host_notify.h>
 #endif
 
-#include <linux/fastchg.h> 
+#include <linux/fastchg.h>
 #include <plat/usb.h>
 
 #include "board-t1.h"
@@ -88,17 +88,14 @@
 #define MASK_SWITCH_UART_AP		0x02
 
 
-#define T1_MHL_SWING_LEVEL		0xFA
+#define T1_MHL_SWING_LEVEL		0xFF
 
 #define SWCAP_TRIM_OFFSET		(0x30)
 #define SWCAP_TRIM_OFFSET_HOST			(0x00)
-#define BGTRIM_TRIM_OFFSET_HOST			(0x00)
-#define RTERM_RMX_OFFSET_HOST			(0x00)
+#define BGTRIM_TRIM_OFFSET_HOST			(-0x3FA0)
+#define RTERM_RMX_OFFSET_HOST			(0x20)
 #define REF_GEN_TEST	0x06
 #define REF_GEN_TEST_HOST	0x00
-#define RTERM_CAL_OFFSET_HOST			(0x00)
-#define HS_CODE_SEL_HOST	(0x7)
-#define SQ_OFF_CODE_DAC3_OFFSET_HOST	(0x3)
 
 #if !defined(CONFIG_USB_SWITCH_FSA9480_DISABLE_OTG)
 static int otg_en;
@@ -353,7 +350,6 @@ static void t1_ap_usb_attach(struct t1_otg *t1_otg)
 	if (!cancel_delayed_work_sync(&t1_otg->usb_disconn_w))
 		t1_vusb_enable(t1_otg, true);
 	omap4430_phy_init_for_eyediagram(SWCAP_TRIM_OFFSET, 0, 0);
-	omap4460_phy_tuning_for_eyediagram(0, 0, 0x1);
 	USB_PHY_SUSPEND_UNLOCK();
 
 	t1_mux_usb_to_fsa(true);
@@ -428,9 +424,6 @@ static void t1_usb_host_attach(struct t1_otg *t1_otg)
 	omap4430_phy_init_for_eyediagram
 		(SWCAP_TRIM_OFFSET_HOST, BGTRIM_TRIM_OFFSET_HOST
 				, RTERM_RMX_OFFSET_HOST);
-	omap4460_phy_tuning_for_eyediagram
-		(RTERM_CAL_OFFSET_HOST, SQ_OFF_CODE_DAC3_OFFSET_HOST
-				, HS_CODE_SEL_HOST);
 	USB_PHY_SUSPEND_UNLOCK();
 
 	t1_mux_usb_to_fsa(true);
@@ -630,10 +623,6 @@ static void t1_fsa_usb_detected(int device)
 		}
 		if (t1_otg->irq_ta_nconnected)
 			enable_irq(t1_otg->irq_ta_nconnected);
-		#if defined(CONFIG_MACH_SAMSUNG_T1_CHN_CMCC)
-		/*for "booting complete" unreadable  message issue*/
-		gpio_set_value(uart_sw_gpios[GPIO_AP_CP_INT1].gpio, 1);
-		#endif
 		break;
 	case FSA9480_DETECT_AV_365K_CHARGER:
 		t1_otg_set_dock_switch(T1_DOCK_DESK);
@@ -1081,10 +1070,10 @@ static void sii9234_connect(bool on, u8 *devcap)
 
 	if (on) {
 #ifdef CONFIG_FORCE_FAST_CHARGE
-                val = (force_fast_charge !=0) ? USB_EVENT_CHARGER : USB_EVENT_VBUS;
-#else 
+		val = (force_fast_charge !=0) ? USB_EVENT_CHARGER : USB_EVENT_VBUS;
+#else
 		val = USB_EVENT_VBUS;
-#endif 
+#endif
 		if (devcap) {
 			u16 adopter_id =
 				(devcap[MHL_DEVCAP_ADOPTER_ID_H] << 8) |
@@ -1094,6 +1083,9 @@ static void sii9234_connect(bool on, u8 *devcap)
 				devcap[MHL_DEVCAP_DEVICE_ID_L];
 
 			if (adopter_id == 0x3333 || adopter_id == 321) {
+				if (devcap[MHL_DEVCAP_RESERVED] == 2)
+					val = USB_EVENT_CHARGER;
+
 				if (device_id == 0x1234)
 					dock = 1;
 			}

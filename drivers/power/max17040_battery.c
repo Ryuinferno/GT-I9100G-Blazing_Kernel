@@ -47,11 +47,7 @@
 #define MAX17040_CMD_MSB	0xFE
 #define MAX17040_CMD_LSB	0xFF
 
-#if defined(CONFIG_RTC_CHN_ALARM_BOOT)
-#define MAX17040_BATTERY_FULL	99
-#else
 #define MAX17040_BATTERY_FULL	100
-#endif
 #define MAX17040_VCELL_FULL	4200000
 
 #define HAS_ALERT_INTERRUPT(ver)	(ver >= 3)
@@ -115,9 +111,6 @@ struct max17040_chip {
 	struct notifier_block	pm_notifier;
 	struct wake_lock	work_wake_lock;
 	struct wake_lock	lowbat_wake_lock;
-#if defined(CONFIG_RTC_CHN_ALARM_BOOT)
-	struct wake_lock	lpm_wake_lock;
-#endif
 
 #ifdef CONFIG_TEMP_BLOCK_FOR_CAM_RECORDING
 	struct proc_dir_entry *max17040_battery_proc;
@@ -771,32 +764,15 @@ static int max17040_pm_notifier(struct notifier_block *notifier,
 {
 	struct max17040_chip *chip =
 		container_of(notifier, struct max17040_chip, pm_notifier);
-#if defined(CONFIG_RTC_CHN_ALARM_BOOT)
-	extern u32 sec_bootmode;
-#endif
 
 	switch (pm_event) {
 	case PM_SUSPEND_PREPARE:
 #ifdef CONFIG_USE_CHG_ADC_POLLING
 		if (chip->pdata->get_charging_state) {
-#if defined(CONFIG_RTC_CHN_ALARM_BOOT)
-			if (sec_bootmode == 5) {
-				if (!wake_lock_active(&chip->lpm_wake_lock)) {
-					wake_lock(&chip->lpm_wake_lock);
-					printk("[BSY] wake lock : battery\n");
-				}
-			} else {
-				if (!chip->pdata->get_charging_state()) {
-					cancel_work_sync(&chip->work);
-					max17040_program_alarm(chip, SLOW_POLL);
-				}
-			}
-#else
 			if (!chip->pdata->get_charging_state()) {
 				cancel_work_sync(&chip->work);
 				max17040_program_alarm(chip, SLOW_POLL);
 			}
-#endif
 		}
 #else
 		/* After charge completion interrupt, if there is no other
@@ -1186,11 +1162,6 @@ static int __devinit max17040_probe(struct i2c_client *client,
 	wake_lock_init(&chip->work_wake_lock, WAKE_LOCK_SUSPEND,
 			"max17040-battery");
 
-#if defined(CONFIG_RTC_CHN_ALARM_BOOT)
-	wake_lock_init(&chip->lpm_wake_lock, WAKE_LOCK_SUSPEND,
-			"max17040-lpm");
-#endif
-
 	wake_lock_init(&chip->lowbat_wake_lock, WAKE_LOCK_SUSPEND,
 		       "lowbat_wake_lock");
 
@@ -1317,9 +1288,6 @@ err_battery_supply_register:
 	wake_lock_destroy(&full_batt_wake_lock);
 	wake_lock_destroy(&chip->lowbat_wake_lock);
 	wake_lock_destroy(&chip->work_wake_lock);
-#if defined(CONFIG_RTC_CHN_ALARM_BOOT)
-	wake_lock_destroy(&chip->lpm_wake_lock);
-#endif
 	alarm_cancel(&chip->alarm);
 	kfree(chip);
 
@@ -1337,9 +1305,6 @@ static int __devexit max17040_remove(struct i2c_client *client)
 	wake_lock_destroy(&full_batt_wake_lock);
 	wake_lock_destroy(&chip->lowbat_wake_lock);
 	wake_lock_destroy(&chip->work_wake_lock);
-#if defined(CONFIG_RTC_CHN_ALARM_BOOT)
-	wake_lock_destroy(&chip->lpm_wake_lock);
-#endif
 	if (HAS_ALERT_INTERRUPT(chip->ver) && chip->pdata->use_fuel_alert)
 		free_irq(client->irq, chip);
 	if (chip->pdata->full_charge_irq)

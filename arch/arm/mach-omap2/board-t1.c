@@ -195,12 +195,6 @@ static void __init omap4_t1_reboot_init(void)
 
 static void __init t1_init(void)
 {
-
-#if defined(CONFIG_MACH_SAMSUNG_T1_CHN_CMCC)	// Temp Code for IORA
-	u32 gpio_oe_reg_addr;
-	u32 reg_val;
-#endif
-
 	sec_common_init_early();
 
 	omap4_t1_emif_init();
@@ -237,47 +231,7 @@ static void __init t1_init(void)
 	if (sec_debug_get_level())
 		platform_add_devices(t1_dbg_devices,
 				     ARRAY_SIZE(t1_dbg_devices));
-	
-	#if defined(CONFIG_MACH_SAMSUNG_T1_CHN_CMCC)	// Temp Code for IORA
-	gpio_request(153, "8M_nRST");
-
-	// GPIO2 (63~32)
-	gpio_oe_reg_addr = 0x48055134;
-	reg_val = omap_readl( gpio_oe_reg_addr );
-	reg_val &= 0xFFF6FFEF; // Ouput setting : GPIO_36, GPIO_48, GPIO_51
-	omap_writel( reg_val, 0x48055134 );
-
-	// GPIO3 (95~64)
-	gpio_oe_reg_addr = 0x48057134;
-	reg_val = omap_readl( gpio_oe_reg_addr );
-	reg_val &= 0xFDEBFFFF; // Ouput setting : GPIO_82, GPIO_84, GPIO_89
-	omap_writel( reg_val, 0x48057134 );
-
-	// GPIO4 (127~96)
-	gpio_oe_reg_addr = 0x48059134;
-	reg_val = omap_readl( gpio_oe_reg_addr );
-	reg_val &= 0xFF7FFE7F; // Ouput setting : GPIO_103, GPIO_104, GPIO_119
-	omap_writel( reg_val, 0x48059134 );
-
-	// GPIO5 (159~128)
-	gpio_oe_reg_addr = 0x4805B134;
-	reg_val = omap_readl( gpio_oe_reg_addr );
-	reg_val &= 0xFDFF37FF; // Ouput setting : GPIO_153, GPIO_143, GPIO_142, GPIO_139
-	omap_writel( reg_val, 0x4805B134 );
-
-	// GPIO6 (191~160)
-	gpio_oe_reg_addr = 0x4805D134;
-	reg_val = omap_readl( gpio_oe_reg_addr );
-	reg_val &= 0xFFFDBFFF; // Ouput setting : GPIO_174, GPIO_177
-	omap_writel( reg_val, 0x4805D134 );
-#endif
-
 	sec_common_init_post();
-
-#if defined(CONFIG_MACH_SAMSUNG_T1_CHN_CMCC)	// Temp Code for IORA
-	gpio_free(153);
-#endif
-
 }
 
 static void __init t1_map_io(void)

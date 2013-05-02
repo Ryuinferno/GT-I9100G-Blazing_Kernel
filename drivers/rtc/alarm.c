@@ -220,7 +220,7 @@ void alarm_set_alarmboot(char *alarm_data)
 	else
 		data = 0x00;
 
-	ret = twl_i2c_write_u8(TWL4030_MODULE_SECURED_REG, data, 0x00);
+	ret = twl_i2c_write_u8(TWL_MODULE_RTC, data, 0x17);
 	if (ret < 0)
 		pr_err("twl_rtc: Could not write TWL"
 		       "register 0x17 - error %d\n", ret);
@@ -495,18 +495,7 @@ static int alarm_suspend(struct platform_device *pdev, pm_message_t state)
 			rtc_delta).tv_sec;
 
 		rtc_time_to_tm(rtc_alarm_time, &rtc_alarm.time);
-#if defined(CONFIG_MACH_SAMSUNG_T1_CHN_OPEN)\
-	|| defined(CONFIG_MACH_SAMSUNG_T1_CHN_CMCC)
-		rtc_tm_to_time(&rtc_current_rtc_time, &rtc_current_time);
-		if(rtc_alarm_time - rtc_current_time <= 60) {
-			pr_alarm(SUSPEND, "alarm_suspend : power_on_alarm ON\n");
-		}
-		else {
-			rtc_alarm_time -= 60;
-			rtc_time_to_tm(rtc_alarm_time, &rtc_alarm.time);
-			pr_alarm(SUSPEND, "alarm_suspend : power_on_alarm OFF\n");
-		}
-#endif
+
 		rtc_alarm.enabled = 1;
 		rtc_set_alarm(alarm_rtc_dev, &rtc_alarm);
 		rtc_read_time(alarm_rtc_dev, &rtc_current_rtc_time);

@@ -57,14 +57,6 @@
 #define WRITE_MACADDR
 #endif
 
-
-#ifdef CONFIG_MACH_SAMSUNG_T1_CHN_CMCC
-#define HW_OOB
-#define USE_CID_CHECK
-#define WRITE_MACADDR
-#endif
-
-
 #ifdef CONFIG_MACH_GC1
 #undef USE_CID_CHECK
 #define READ_MACADDR
