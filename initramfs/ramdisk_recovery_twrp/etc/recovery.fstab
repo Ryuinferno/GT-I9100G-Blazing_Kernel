@@ -6,7 +6,7 @@
 /efs		ext4		/dev/block/mmcblk0p1      
 /cache		ext4		/dev/block/mmcblk0p7
 /system		ext4		/dev/block/mmcblk0p9
-/preload	ext4		/dev/block/mmcblk0p12
+/preload	ext4		/dev/block/mmcblk0p12 flags=display="Preload";backup=1;wipeingui
 /data		ext4		/dev/block/mmcblk0p10
 
 /emmc		vfat		/dev/block/mmcblk0p11

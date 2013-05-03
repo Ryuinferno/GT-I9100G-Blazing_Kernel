@@ -35,7 +35,7 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
         find . | cpio -o -H newc > ../stage1/boot.cpio
         cd ..
 
-        # create the recovery ramdisk, "cwm6" is for 6.0.1.2, "old" is for 5.5.0.4, "touch" is for touch recovery, "twrp" for TWRP 2.4; default is modified 6.0.2.8
+        # create the recovery ramdisk, "cwm6" is for 6.0.1.2, "old" is for 5.5.0.4, "touch" is for touch recovery, "twrp" for TWRP 2.5; default is modified 6.0.3.1
       case "$1" in
       old)  
         rm stage1/recovery.cpio
