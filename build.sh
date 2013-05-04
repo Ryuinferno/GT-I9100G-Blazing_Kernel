@@ -10,12 +10,13 @@ INITRAMFS_RECOVERY_OLD="ramdisk_recovery_old"
 INITRAMFS_RECOVERY_TOUCH="ramdisk_recovery_touch"
 INITRAMFS_RECOVERY_MOD="ramdisk_recovery_mod"
 INITRAMFS_RECOVERY_TWRP="ramdisk_recovery_twrp"
-MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko" "drivers/samsung/j4fs/j4fs.ko")
+MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko" "drivers/samsung/j4fs/j4fs.ko")
 
   case "$1" in
   clean)
           make mrproper
           rm -rf ${OUTDIR}
+          rm -f ../tools/zipfile/system/lib/modules/cifs.ko
    ;;
    *)  
         mkdir -p ${OUTDIR}   
@@ -28,6 +29,9 @@ MODULES=("fs/cifs/cifs.ko" "drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/sc
             cp "${module}" ${INITRAMFS_ANDROID}/lib/modules
         done  
         chmod 644 ${INITRAMFS_ANDROID}/lib/modules/*
+        
+        cp fs/cifs/cifs.ko ../tools/zipfile/system/lib/modules
+        chmod 644 ../tools/zipfile/system/lib/modules/cifs.ko
 
         # create the android ramdisk
         rm initramfs/stage1/boot.cpio
