@@ -1,0 +1,36 @@
+#!/stage1/busybox sh
+_PATH="$PATH"
+export PATH=/stage1
+
+busybox cd /
+busybox date >>boot.txt
+exec >>boot.txt 2>&1
+busybox rm init
+busybox mount -t proc proc /proc
+busybox mount -t sysfs sysfs /sys
+busybox mknod /dev/block/mmcblk0p9 b 259 1
+busybox mount -t ext4 /dev/block/mmcblk0p9 /test
+
+load_image=/stage1/boot.cpio
+
+if [ -e /test/framework/framework2.jar ]; then
+  echo "Stock ROM" >> boot.txt
+else
+  echo "AOSP ROM" >> boot.txt
+  load_image=/stage1/boot1.cpio
+fi 
+
+if busybox grep -q bootmode=2 /proc/cmdline ; then
+	# recovery boot
+	load_image=/stage1/recovery.cpio
+fi
+
+busybox cpio -i < ${load_image}
+
+busybox umount /test
+busybox umount /sys
+busybox umount /proc
+busybox date >>boot.txt
+busybox rm -fr /test /stage1 /dev/*
+export PATH="${_PATH}"
+exec /init
