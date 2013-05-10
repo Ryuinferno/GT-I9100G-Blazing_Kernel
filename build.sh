@@ -18,6 +18,9 @@ MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko" "
           make mrproper
           rm -rf ${OUTDIR}
           rm -f ../tools/zipfile/system/lib/modules/cifs.ko
+          rm -f ../tools/zipfile/system/lib/modules/dhd.ko
+          rm -f ../tools/zipfile/system/lib/modules/j4fs.ko
+          rm -f ../tools/zipfile/system/lib/modules/scsi_wait_scan.ko
    ;;
    *)  
         mkdir -p ${OUTDIR}   
