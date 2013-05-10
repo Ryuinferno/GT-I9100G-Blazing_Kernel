@@ -5,6 +5,7 @@ OUTDIR="../out"
 ZIPDIR="../tools/zipfile"
 PLACEHOLDER="Delete_before_compiling"
 INITRAMFS_ANDROID="initramfs/ramdisk_boot"
+INITRAMFS_ANDROID2="initramfs/ramdisk_boot1"
 INITRAMFS_RECOVERY="ramdisk_recovery"
 INITRAMFS_RECOVERY_OLD="ramdisk_recovery_old"
 INITRAMFS_RECOVERY_TOUCH="ramdisk_recovery_touch"
@@ -40,6 +41,15 @@ MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko" "
         rm initramfs/stage1/boot.cpio
         cd ${INITRAMFS_ANDROID}
         find . | cpio -o -H newc > ../stage1/boot.cpio
+        cd ..
+
+        rm initramfs/stage1/boot1.cpio
+        cd ${INITRAMFS_ANDROID2}
+        rm data/$PLACEHOLDER
+        rm system/$PLACEHOLDER
+        find . | cpio -o -H newc > ../stage1/boot1.cpio
+        echo > data/$PLACEHOLDER
+        echo > system/$PLACEHOLDER
         cd ..
 
         # create the recovery ramdisk, "cwm6" is for 6.0.1.2, "old" is for 5.5.0.4, "touch" is for touch recovery, "twrp" for TWRP 2.5; default is modified 6.0.3.1
