@@ -66,17 +66,17 @@ static int t1_create_secvib_sysfs(void)
 
 	int ret;
 	struct kobject *vibetonz_kobj;
-        struct kobject *vibrator_kobj;
+	struct kobject *vibrator_kobj;
 	vibetonz_kobj = kobject_create_and_add("vibetonz", NULL);
-        vibrator_kobj = kobject_create_and_add("vibrator", NULL);
-        if (unlikely(!vibetonz_kobj))
+	vibrator_kobj = kobject_create_and_add("vibrator", NULL);
+	if (unlikely(!vibetonz_kobj))
 		return -ENOMEM;
 	if (unlikely(!vibrator_kobj))
 		return -ENOMEM;
 
 	ret = sysfs_create_file(vibetonz_kobj,
 			&dev_attr_pwmvalue.attr);
-        ret = sysfs_create_file(vibrator_kobj,
+	ret = sysfs_create_file(vibrator_kobj,
 			&dev_attr_pwmvalue.attr);
 	if (unlikely(ret < 0)) {
 		pr_err("secvib: sysfs_create_file failed: %d\n", ret);
