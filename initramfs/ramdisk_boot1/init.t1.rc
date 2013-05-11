@@ -484,10 +484,3 @@ service playlpm /system/bin/playlpm
 service lpmkey /system/bin/lpmkey
     class sec_charger
     user root
-
-# Vibetonz
-service immvibed /system/bin/immvibed
-    class main
-    user shell
-    group shell
-    oneshot
