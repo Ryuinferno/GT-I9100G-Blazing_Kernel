@@ -46,7 +46,7 @@ MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko" "
         find . | cpio -o -H newc > ../stage1/boot.cpio
         cd ..
 
-        rm initramfs/stage1/boot1.cpio
+        rm stage1/boot1.cpio
         cd ${INITRAMFS_ANDROID2}
         rm data/$PLACEHOLDER
         rm system/$PLACEHOLDER
