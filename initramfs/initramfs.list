@@ -1,6 +1,7 @@
 dir /cache 755 0 0
 dir /dev 755 0 0
 dir /test 755 0 0
+dir /test1 755 0 0
 dir /dev/block 755 0 0
 nod /dev/block/mmcblk0 600 0 0 b 179 0
 nod /dev/block/mmcblk0p1 600 0 0 b 179 1
@@ -12,7 +13,6 @@ nod /dev/block/mmcblk0p6 600 0 0 b 179 6
 nod /dev/block/mmcblk0p7 600 0 0 b 179 7
 nod /dev/block/mmcblk0p8 600 0 0 b 179 8
 nod /dev/block/mmcblk0p10 600 0 0 b 179 10
-nod /dev/block/mmcblk0p11 600 0 0 b 179 11
 nod /dev/block/mmcblk0p12 600 0 0 b 179 12
 nod /dev/block/mmcblk1 600 0 0 b 179 16
 nod /dev/block/mmcblk1p1 600 0 0 b 179 17

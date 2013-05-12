@@ -1,7 +1,7 @@
 #!/system/bin/sh
 
 cfgfile=/sdmnt/SDRoms/bootsdrom.cfg
-bb=/sbin/busybox
+bb=/sbin/blaze/busybox
 
 if $bb [ ! -f "$cfgfile" ]; 
 then
@@ -30,8 +30,8 @@ if $bb [ ! -d /sdmnt/SDRoms/update ];
 then
     $bb mkdir /sdmnt/SDRoms/update
 fi;
-/sbin/busybox cp /sdmnt/SDRoms/bootsdrom.log /sdmnt/SDRoms/bootsdrom.log.bak
-/sbin/busybox rm /sdmnt/SDRoms/bootsdrom.log
+$bb cp /sdmnt/SDRoms/bootsdrom.log /sdmnt/SDRoms/bootsdrom.log.bak
+$bb rm /sdmnt/SDRoms/bootsdrom.log
 exec >>/sdmnt/SDRoms/bootsdrom.log
 exec 2>&1
 
@@ -140,9 +140,9 @@ then
                      $bb mkdir /data/datasd/dalvik-cache
                  fi;
                  
-                 /sbin/busybox chown system /data/datasd/dalvik-cache
-                 /sbin/busybox chown system.system /data/datasd/dalvik-cache
-                 /sbin/busybox chmod 0771 /data/datasd/dalvik-cache
+                 $bb chown system /data/datasd/dalvik-cache
+                 $bb chown system.system /data/datasd/dalvik-cache
+                 $bb chmod 0771 /data/datasd/dalvik-cache
 
                  $bb mount --bind /data/datasd/dalvik-cache /data/dalvik-cache
              fi;
@@ -169,7 +169,7 @@ then
 
         if $bb [ -f /sdmnt/SDRoms/update/wipe_dalvik-cache ]; 
         then
-            echo "Wipe davik-cache on SDRom..."
+            $bb echo "Wipe davik-cache on SDRom..."
             $bb rm -rf /data/dalvik-cache/*
             $bb mv -f /sdmnt/SDRoms/update/wipe_dalvik-cache /sdmnt/SDRoms/update/wipe_dalvik-cache_complete
         fi;
@@ -178,10 +178,10 @@ then
         then
             $bb mount /system -o remount,rw
 
-            echo "Extract system to SDRom..."
+            $bb echo "Extract system to SDRom..."
             $bb unzip -o /sdmnt/SDRoms/update/update.zip "system/*" -d /
 
-            echo "Extract data to SDRom..."
+            $bb echo "Extract data to SDRom..."
             $bb unzip -o /sdmnt/SDRoms/update/update.zip "data/*" -d /
 
             $bb mv -f /sdmnt/SDRoms/update/update.zip /sdmnt/SDRoms/update/update_complete.zip

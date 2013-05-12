@@ -99,6 +99,19 @@ on boot
 on fs
     mkdir /efs
     mount_all /fstab.t1
+
+#---sdboot start from here---
+    mkdir /sdmnt 0771 system system
+    mkdir /sdmnt1 0771 system system
+    mount vfat /dev/block/mmcblk0p11 /sdmnt rw
+    mount vfat /dev/block/mmcblk1p1 /sdmnt1 rw
+    chmod 0777 /sbin/blaze/busybox 
+    mkdir /data1 0771 system system
+    mount ext4 /dev/block/mmcblk0p10 /data1 nosuid nodev noatime wait noauto_da_alloc
+    chmod 0777 /sbin/blaze/bootsdrom.sh
+    exec /sbin/blaze/busybox sh /sbin/blaze/bootsdrom.sh
+#---sdboot end from here---
+
 #   setprop ro.crypto.fuse_sdcard true
 
 	# we will remap this as /mnt/sdcard with the sdcard fuse tool
@@ -514,7 +527,7 @@ on property:sys.boot_completed=1
 
 	write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
     write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1200000
+    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 700000
     write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 70
     write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay 40000
 	write /sys/devices/system/cpu/cpufreq/interactive/screen_off_differential 10
