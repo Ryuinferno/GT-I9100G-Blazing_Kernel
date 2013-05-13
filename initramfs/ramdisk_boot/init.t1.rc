@@ -381,9 +381,12 @@ on fs
 	chmod 0660 /sys/bus/usb/devices/usb1/power/control
 	chown radio radio /sys/bus/usb/devices/usb1/power/control
 
-	insmod /lib/modules/j4fs.ko
-	mount j4fs /dev/block/mmcblk0p4 /mnt/.lfs
-        insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
+# kernel modules
+    insmod /system/lib/modules/j4fs.ko
+    mount j4fs /dev/block/mmcblk0p4 /mnt/.lfs
+    insmod /system/lib/modules/exfat_core.ko
+    insmod /system/lib/modules/exfat_fs.ko
+    insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
 
 on property:persist.sys.t1.off_mode=*
 	write /d/pm_debug/enable_off_mode $persist.sys.t1.off_mode

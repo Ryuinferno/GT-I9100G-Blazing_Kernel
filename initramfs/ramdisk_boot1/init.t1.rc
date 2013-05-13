@@ -40,6 +40,10 @@ on fs
     insmod /system/lib/modules/j4fs.ko
     mount j4fs /dev/block/mmcblk0p4 /mnt/.lfs
 
+# exfat module
+    insmod /system/lib/modules/exfat_core.ko
+    insmod /system/lib/modules/exfat_fs.ko
+
 # pvr module
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
 

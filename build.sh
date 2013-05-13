@@ -11,7 +11,7 @@ INITRAMFS_RECOVERY_OLD="ramdisk_recovery_old"
 INITRAMFS_RECOVERY_TOUCH="ramdisk_recovery_touch"
 INITRAMFS_RECOVERY_MOD="ramdisk_recovery_mod"
 INITRAMFS_RECOVERY_TWRP="ramdisk_recovery_twrp"
-MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko" "drivers/samsung/j4fs/j4fs.ko")
+MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko")
 
   case "$1" in
   clean)
@@ -36,7 +36,8 @@ MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko" "
         
         for module in "${MODULES[@]}" ; do
             cp "${module}" ../tools/zipfile/system/lib/modules
-        done  
+        done
+        cp drivers/samsung/j4fs/j4fs.ko ../tools/zipfile/system/lib/modules 
         cp fs/cifs/cifs.ko ../tools/zipfile/system/lib/modules
         chmod 644 ../tools/zipfile/system/lib/modules/*
 
