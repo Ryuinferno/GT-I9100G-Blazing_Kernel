@@ -996,7 +996,7 @@ init_page_buffers(struct page *page, struct block_device *bdev,
  *
  * This is used purely for blockdev mappings.
  */
-static init *
+static int *
 grow_dev_page(struct block_device *bdev, sector_t block,
 		pgoff_t index, int size, int sizebits)
 {
