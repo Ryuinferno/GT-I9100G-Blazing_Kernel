@@ -21,6 +21,7 @@ MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko")
           rm -f ../tools/zipfile/system/lib/modules/dhd.ko
           rm -f ../tools/zipfile/system/lib/modules/j4fs.ko
           rm -f ../tools/zipfile/system/lib/modules/scsi_wait_scan.ko
+	  rm -f ../tools/zipfile/system/lib/modules/pvrsrvkm_sgx540_120.ko
    ;;
    *)  
         mkdir -p ${OUTDIR}   
@@ -40,6 +41,12 @@ MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko")
         cp drivers/samsung/j4fs/j4fs.ko ../tools/zipfile/system/lib/modules 
         cp fs/cifs/cifs.ko ../tools/zipfile/system/lib/modules
         chmod 644 ../tools/zipfile/system/lib/modules/*
+
+	cd usr/pvr-source/eu*/bu*/li*/om*
+	make -j8 ARCH=arm KERNEL_CROSS_COMPILE=/opt/arm-eabi-4.6/bin/arm-eabi- CROSS_COMPILE=/opt/arm-eabi-4.6/bin/arm-eabi- KERNELDIR=~/Repos/Dual/kernel TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
+	mv ../../../bi*/target/pvrsrvkm_sgx540_120.ko ~/Repos/Dual/tools/zipfile/system/lib/modules
+	rm -r ../../../bi*
+	cd ../../../../../..
 
         # create the android ramdisk
         rm initramfs/stage1/boot.cpio
