@@ -5715,8 +5715,7 @@ int dhd_os_check_wakelock(void *dhdp)
 		return 0;
 	dhd = (dhd_info_t *)(pub->info);
 
-	if (dhd && (wake_lock_active(&dhd->wl_wifi) ||
-	    wake_lock_active(&dhd->wl_wdwake)))
+	if (dhd && wake_lock_active(&dhd->wl_wifi))
 		return 1;
 #elif defined(CUSTOMER_HW4) && defined(CONFIG_PM_SLEEP) && defined(PLATFORM_SLP)
 	/* SLP_wakelock_alternative_code */
