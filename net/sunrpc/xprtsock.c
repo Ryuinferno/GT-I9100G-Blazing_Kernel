@@ -1513,6 +1513,8 @@ static void xs_tcp_state_change(struct sock *sk)
 		/* The server initiated a shutdown of the socket */
 		xprt->connect_cookie++;
 		xs_tcp_force_close(xprt);
+		clear_bit(XPRT_CONNECTED, &xprt->state);
+		xs_tcp_force_close(xprt);
 	case TCP_CLOSING:
 		/*
 		 * If the server closed down the connection, make sure that
