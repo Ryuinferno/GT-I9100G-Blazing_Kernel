@@ -122,16 +122,6 @@ config CPU_FREQ_DEFAULT_GOV_INTERACTIVE
 	  loading your cpufreq low-level hardware driver, using the
 	  'interactive' governor for latency-sensitive workloads.
 
-config CPU_FREQ_DEFAULT_GOV_ADAPTIVE
-	bool "adaptive"
-	select CPU_FREQ_GOV_ADAPTIVE
-	help
-	  Use the CPUFreq governor 'adaptive' as default. This allows
-	  you to get a full dynamic cpu frequency capable system by simply
-	  loading your cpufreq low-level hardware driver, using the
-	  'adaptive' governor for latency-sensitive workloads and demanding
-	  performance.
-
 config CPU_FREQ_DEFAULT_GOV_HOTPLUG
 	bool "hotplug"
 	select CPU_FREQ_GOV_HOTPLUG
@@ -163,19 +153,6 @@ config CPU_FREQ_DEFAULT_GOV_LAGFREE
 	  governor. If unsure have a look at the help section of the
 	  driver. Fallback governor will be the performance governor.
 
-config CPU_FREQ_DEFAULT_GOV_SAKURACTIVE
-	bool "sakuractive"
-	select CPU_FREQ_GOV_SAKURACTIVE
-	select CPU_FREQ_GOV_PERFORMANCE
-	help
-	  Use the CPUFreq governor 'sakuractive' as default. This allows you
-	  to get a full dynamic frequency capable system with CPU
-	  hotplug support by simply loading your cpufreq low-level
-	  hardware driver.  Be aware that not all cpufreq drivers
-	  support the hotplug governor. If unsure have a look at
-	  the help section of the driver. Fallback governor will be the
-	  performance governor.
-
 config CPU_FREQ_DEFAULT_GOV_PEGASUSQ
 	bool "pegasusq"
 	select CPU_FREQ_GOV_PEGASUSQ
@@ -194,12 +171,6 @@ config CPU_FREQ_DEFAULT_GOV_LULZACTIVE
 	help
 	  Use the CPUFreq governor 'lulzactive' as default.
 
-config CPU_FREQ_DEFAULT_GOV_INTERACTIVEX
-  	bool "interactiveX"
-  	select CPU_FREQ_GOV_INTERACTIVEX
-  	help
-    	  Use the CPUFreq governor 'interactiveX' as default.
-
 config CPU_FREQ_DEFAULT_GOV_MINMAX
 	bool "minmax"
 	select CPU_FREQ_GOV_MINMAX
@@ -208,19 +179,6 @@ config CPU_FREQ_DEFAULT_GOV_MINMAX
 	  Use the CPUFreq governor 'minmax' as default. This minimizes the
 	  frequency jumps does by the governor. This is aimed at maximizing
 	  both perfomance and battery life.
-
-config CPU_FREQ_DEFAULT_GOV_BRAZILIANWAX
-	bool "brazilianwax"
-	select CPU_FREQ_GOV_BRAZILIANWAX
-	select CPU_FREQ_GOV_PERFORMANCE
-	help
-	  Use the CPUFreq governor 'brazilianwax as default.
-
-config CPU_FREQ_DEFAULT_GOV_SAVAGEDZEN
-	bool "SavagedZen"
-	select CPU_FREQ_GOV_SAVAGEDZEN
-	help
-          Use the CPUFreq governor 'savagedzen' as default.
 
 config CPU_FREQ_DEFAULT_GOV_SCARY
     bool "scary"
