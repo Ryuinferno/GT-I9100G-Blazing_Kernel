@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="v9"
+VERSION="v10"
 OUTDIR="../out"
 ZIPDIR="../tools/zipfile"
 PLACEHOLDER="Delete_before_compiling"
