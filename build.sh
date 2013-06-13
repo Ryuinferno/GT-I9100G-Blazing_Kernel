@@ -12,6 +12,7 @@ INITRAMFS_RECOVERY_TOUCH="ramdisk_recovery_touch"
 INITRAMFS_RECOVERY_MOD="ramdisk_recovery_mod"
 INITRAMFS_RECOVERY_TWRP="ramdisk_recovery_twrp"
 MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko")
+START=$(date +%s)
 
   case "$1" in
   clean)
@@ -51,7 +52,9 @@ MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko")
         # create the android ramdisk
         rm initramfs/stage1/boot.cpio
         cd ${INITRAMFS_ANDROID}
+        rm lib/modules/$PLACEHOLDER
         find . | cpio -o -H newc > ../stage1/boot.cpio
+        echo > lib/modules/$PLACEHOLDER
         cd ..
 
         rm stage1/boot1.cpio
@@ -175,3 +178,11 @@ MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko")
       cd ../kernel
    ;;
    esac
+
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+echo -ne "\033[32mElapsed: "
+[ $E_MIN != 0 ] && echo -ne "$E_MIN min(s) "
+echo -e "$E_SEC sec(s)\033[0m"
