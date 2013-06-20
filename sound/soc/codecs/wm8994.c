@@ -2905,7 +2905,6 @@ static int wm8994_aif3_hw_params(struct snd_pcm_substream *substream,
 		default:
 			return 0;
 		}
-		break;
 	default:
 		return 0;
 	}
