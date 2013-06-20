@@ -11,6 +11,7 @@ INITRAMFS_RECOVERY_OLD="ramdisk_recovery_old"
 INITRAMFS_RECOVERY_TOUCH="ramdisk_recovery_touch"
 INITRAMFS_RECOVERY_MOD="ramdisk_recovery_mod"
 INITRAMFS_RECOVERY_TWRP="ramdisk_recovery_twrp"
+MODULES_EXT=("fs/cifs/cifs.ko" "drivers/samsung/j4fs/j4fs.ko" "net/sunrpc/sunrpc.ko" "net/sunrpc/auth_gss/auth_rpcgss.ko" "fs/nfs/nfs.ko" "fs/lockd/lockd.ko")
 MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko")
 START=$(date +%s)
 
@@ -23,6 +24,10 @@ START=$(date +%s)
           rm -f ../tools/zipfile/system/lib/modules/j4fs.ko
           rm -f ../tools/zipfile/system/lib/modules/scsi_wait_scan.ko
           rm -f ../tools/zipfile/system/lib/modules/pvrsrvkm_sgx540_120.ko
+          rm -f ../tools/zipfile/system/lib/modules/auth_rpcgss.ko
+          rm -f ../tools/zipfile/system/lib/modules/nfs.ko.ko
+          rm -f ../tools/zipfile/system/lib/modules/lockd.ko
+          rm -f ../tools/zipfile/system/lib/modules/sunrpc.ko
    ;;
    *)  
         mkdir -p ${OUTDIR}   
@@ -33,19 +38,18 @@ START=$(date +%s)
 
         for module in "${MODULES[@]}" ; do
             cp "${module}" ${INITRAMFS_ANDROID}/lib/modules
+            cp "${module}" ../tools/zipfile/system/lib/modules
         done  
         chmod 644 ${INITRAMFS_ANDROID}/lib/modules/*
         
-        for module in "${MODULES[@]}" ; do
+        for module in "${MODULES_EXT[@]}" ; do
             cp "${module}" ../tools/zipfile/system/lib/modules
         done
-        cp drivers/samsung/j4fs/j4fs.ko ../tools/zipfile/system/lib/modules 
-        cp fs/cifs/cifs.ko ../tools/zipfile/system/lib/modules
         chmod 644 ../tools/zipfile/system/lib/modules/*
 
         cd usr/pvr-source/eu*/bu*/li*/om*
         make -j8 ARCH=arm KERNEL_CROSS_COMPILE=/opt/arm-eabi-4.6/bin/arm-eabi- CROSS_COMPILE=/opt/arm-eabi-4.6/bin/arm-eabi- KERNELDIR=~/Repos/Dual/kernel TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
-        mv ../../../bi*/target/pvrsrvkm_sgx540_120.ko ~/Repos/Dual/tools/zipfile/system/lib/modules
+        mv ../../../bi*/target/pvrsrvkm_sgx540_120.ko ../../../../../../../tools/zipfile/system/lib/modules
         rm -r ../../../bi*
         cd ../../../../../..
 
