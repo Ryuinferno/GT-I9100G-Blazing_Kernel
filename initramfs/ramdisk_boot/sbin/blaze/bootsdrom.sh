@@ -160,6 +160,7 @@ then
             $bb echo "Update system on SDRom..."
             $bb mount /system -o remount,rw
             $bb cp -rf /sdmnt/SDRoms/update/system/* /system/
+            $bb chmod 644 /system/lib/modules/*
             $bb mv -f /sdmnt/SDRoms/update/system /sdmnt/SDRoms/update/system_updated
             $bb mount /system -o remount,ro
         fi;
