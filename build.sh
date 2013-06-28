@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # variables
-VERSION="v10"
+VERSION="v11"
 TOOLCHAIN="/opt/linaro-4.7.4/bin/arm-unknown-linux-gnueabi-"
 TOOLCHAIN2="/opt/arm-eabi-4.6/bin/arm-eabi-"
 OUTDIR="../out"
