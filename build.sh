@@ -29,7 +29,7 @@ START=$(date +%s)
           rm -f ../tools/zipfile/system/lib/modules/scsi_wait_scan.ko
           rm -f ../tools/zipfile/system/lib/modules/pvrsrvkm_sgx540_120.ko
           rm -f ../tools/zipfile/system/lib/modules/auth_rpcgss.ko
-          rm -f ../tools/zipfile/system/lib/modules/nfs.ko.ko
+          rm -f ../tools/zipfile/system/lib/modules/nfs.ko
           rm -f ../tools/zipfile/system/lib/modules/lockd.ko
           rm -f ../tools/zipfile/system/lib/modules/sunrpc.ko
    ;;
