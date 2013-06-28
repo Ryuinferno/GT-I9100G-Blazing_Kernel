@@ -4,13 +4,14 @@ VERSION="v10"
 OUTDIR="../out"
 ZIPDIR="../tools/zipfile"
 PLACEHOLDER="Delete_before_compiling"
-INITRAMFS_ANDROID="initramfs/ramdisk_boot"
-INITRAMFS_ANDROID2="ramdisk_boot1"
-INITRAMFS_RECOVERY="ramdisk_recovery"
-INITRAMFS_RECOVERY_OLD="ramdisk_recovery_old"
-INITRAMFS_RECOVERY_TOUCH="ramdisk_recovery_touch"
-INITRAMFS_RECOVERY_MOD="ramdisk_recovery_mod"
-INITRAMFS_RECOVERY_TWRP="ramdisk_recovery_twrp"
+ANDROID="initramfs/ramdisk_boot"
+ANDROID2="ramdisk_boot1"
+RECOVERY="ramdisk_recovery"
+RECOVERY_OLD="ramdisk_recovery_old"
+RECOVERY_TOUCH="ramdisk_recovery_touch"
+RECOVERY_MOD="ramdisk_recovery_mod"
+RECOVERY_TWRP="ramdisk_recovery_twrp"
+RECOVERY_PHILZ="ramdisk_recovery_philz"
 MODULES_EXT=("fs/cifs/cifs.ko" "drivers/samsung/j4fs/j4fs.ko" "net/sunrpc/sunrpc.ko" "net/sunrpc/auth_gss/auth_rpcgss.ko" "fs/nfs/nfs.ko" "fs/lockd/lockd.ko")
 MODULES=("drivers/net/wireless/bcmdhd/dhd.ko" "drivers/scsi/scsi_wait_scan.ko")
 START=$(date +%s)
@@ -37,10 +38,10 @@ START=$(date +%s)
         make -j8 
 
         for module in "${MODULES[@]}" ; do
-            cp "${module}" ${INITRAMFS_ANDROID}/lib/modules
+            cp "${module}" ${ANDROID}/lib/modules
             cp "${module}" ../tools/zipfile/system/lib/modules
         done  
-        chmod 644 ${INITRAMFS_ANDROID}/lib/modules/*
+        chmod 644 ${ANDROID}/lib/modules/*
         
         for module in "${MODULES_EXT[@]}" ; do
             cp "${module}" ../tools/zipfile/system/lib/modules
@@ -55,14 +56,14 @@ START=$(date +%s)
 
         # create the android ramdisk
         rm initramfs/stage1/boot.cpio
-        cd ${INITRAMFS_ANDROID}
+        cd ${ANDROID}
         rm lib/modules/$PLACEHOLDER
         find . | cpio -o -H newc > ../stage1/boot.cpio
         echo > lib/modules/$PLACEHOLDER
         cd ..
 
         rm stage1/boot1.cpio
-        cd ${INITRAMFS_ANDROID2}
+        cd ${ANDROID2}
         rm data/$PLACEHOLDER
         rm system/$PLACEHOLDER
         find . | cpio -o -H newc > ../stage1/boot1.cpio
@@ -74,13 +75,13 @@ START=$(date +%s)
       case "$1" in
       old)  
         rm stage1/recovery.cpio
-        cd ${INITRAMFS_RECOVERY_OLD}
+        cd ${RECOVERY_OLD}
         cp recovery.cpio ../stage1/recovery.cpio
         cd ../..
       ;;
       touch)
         rm stage1/recovery.cpio
-        cd ${INITRAMFS_RECOVERY_TOUCH}
+        cd ${RECOVERY_TOUCH}
         rm data/$PLACEHOLDER
         rm system/bin/$PLACEHOLDER
         rm tmp/$PLACEHOLDER
@@ -92,7 +93,7 @@ START=$(date +%s)
       ;;
       cwm6)
         rm stage1/recovery.cpio
-        cd ${INITRAMFS_RECOVERY}
+        cd ${RECOVERY}
         rm data/$PLACEHOLDER
         rm system/bin/$PLACEHOLDER
         rm tmp/$PLACEHOLDER
@@ -104,7 +105,7 @@ START=$(date +%s)
       ;;
       twrp)
         rm stage1/recovery.cpio
-        cd ${INITRAMFS_RECOVERY_TWRP}
+        cd ${RECOVERY_TWRP}
         rm data/$PLACEHOLDER
         rm system/bin/$PLACEHOLDER
         rm tmp/$PLACEHOLDER
@@ -114,9 +115,21 @@ START=$(date +%s)
         echo > tmp/$PLACEHOLDER
         cd ../..
       ;;
+      philz)
+        rm stage1/recovery.cpio
+        cd ${RECOVERY_PHILZ}
+        rm data/$PLACEHOLDER
+        rm system/bin/$PLACEHOLDER
+        rm tmp/$PLACEHOLDER
+        find . | cpio -o -H newc > ../stage1/recovery.cpio
+        echo > data/$PLACEHOLDER
+        echo > system/bin/$PLACEHOLDER
+        echo > tmp/$PLACEHOLDER
+        cd ../.. 
+      ;;
       *)
         rm stage1/recovery.cpio
-        cd ${INITRAMFS_RECOVERY_MOD}
+        cd ${RECOVERY_MOD}
         rm data/$PLACEHOLDER
         rm system/bin/$PLACEHOLDER
         rm tmp/$PLACEHOLDER
@@ -168,6 +181,14 @@ START=$(date +%s)
         cd ..
         echo "Sigining zip..."
         java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/Blazing_Kernel_${VERSION}_TWRP.zip ${OUTDIR}/Blazing_Kernel_${VERSION}_TWRP.zip
+      ;;
+      philz)  
+        echo "Creating flashable zip..."
+        cd tools/zipfile
+        zip -r Blazing_Kernel_${VERSION}_PHILZ.zip *
+        cd ..
+        echo "Sigining zip..."
+        java -jar signapk.jar -w testkey.x509.pem testkey.pk8 zipfile/Blazing_Kernel_${VERSION}_PHILZ.zip ${OUTDIR}/Blazing_Kernel_${VERSION}_PHILZ.zip
       ;;
       *)
         echo "Creating flashable zip..."
