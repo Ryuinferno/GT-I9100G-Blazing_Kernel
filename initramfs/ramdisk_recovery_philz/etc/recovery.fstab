@@ -6,7 +6,7 @@
 /efs		ext4		/dev/block/mmcblk0p1      
 /cache		ext4		/dev/block/mmcblk0p7
 /system		ext4		/dev/block/mmcblk0p9
-/data		ext4		/dev/block/mmcblk0p10
+/data		ext4		/dev/block/mmcblk0p10 length=-16384
 /preload 	ext4		/dev/block/mmcblk0p12
 /modem		emmc		/dev/block/mmcblk0p8
 
